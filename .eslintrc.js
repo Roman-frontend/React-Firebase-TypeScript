@@ -30,7 +30,6 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
-    'import/prefer-default-export': 'off',
     'linebreak-style': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/prop-types': 'off',
