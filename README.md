@@ -58,3 +58,7 @@ cd functions
 yarn build
 yarn deploy
 ```
+
+## Відео loop з оглядом працюючих фіч - https://www.loom.com/share/f2ec4c7662d7486fbd6a538fe146cb6f
+
+##Зробити рабочу ссылку на Firebase Hosting сайт, де її можно проект можна подивитись в работі не зробив так як з'явились помилки яких не встиг виправити. 
