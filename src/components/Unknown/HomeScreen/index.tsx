@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Profile from './Profile';
 
-const HomeScreen: React.FC = () => {
+const HomeScreen: React.FC = (): ReactElement => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>

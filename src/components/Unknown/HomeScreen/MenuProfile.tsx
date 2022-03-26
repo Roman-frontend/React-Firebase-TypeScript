@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, ReactElement } from 'react';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { Menu, MenuItem, ListItemIcon } from '@mui/material';
@@ -13,7 +13,7 @@ interface IProps {
   open: boolean;
 }
 
-const MenuProfile = (props: IProps) => {
+const MenuProfile = (props: IProps): ReactElement => {
   const navigate = useNavigate();
   const { authApp } = useContext(AppContext);
   const { anchorEl, setAnchorEl, open } = props;

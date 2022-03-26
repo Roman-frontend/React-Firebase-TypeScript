@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, ReactElement } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { useUser } from 'reactfire';
 import { Avatar, IconButton, Tooltip } from '@mui/material';
 import { AppContext } from '../AppContext';
 import MenuProfile from './MenuProfile';
 
-const Profile: React.FC = () => {
+const Profile: React.FC = (): ReactElement => {
   const { data: userData } = useUser();
   const { firestoreApp } = useContext(AppContext);
   const [avatar, setAvatar] = useState<string>('U');
