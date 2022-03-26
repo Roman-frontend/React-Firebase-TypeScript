@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, ReactElement } from 'react';
 import { getAuth, Auth } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
 import { useFirebaseApp } from 'reactfire';
@@ -21,7 +21,7 @@ interface AlertProps {
   message?: string;
 }
 
-export const AppContextProvider: React.FC = ({ children }) => {
+export const AppContextProvider: React.FC = ({ children }): ReactElement => {
   const app = useFirebaseApp();
   const firebaseApp = getDatabase(app);
   const authApp = getAuth(app);
