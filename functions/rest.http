@@ -1,0 +1,17 @@
+GET http://localhost:5001/train-294c2/us-central1/api
+
+###
+POST http://localhost:5001/train-294c2/us-central1/api
+Content-Type: application/json
+
+{
+  "name": "Truly Mittal",
+  "college": "IIT Guwahati"
+}
+
+###
+DELETE  http://localhost:5001/train-294c2/us-central1/api
+
+
+###
+PUT   http://localhost:5001/train-294c2/us-central1/api

@@ -34,7 +34,8 @@ const Root: React.FC = () => {
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/login" element={<Navigate replace to="/" />} />
-          <Route path="*" element={<NotFoundScreen />} />
+          <Route path="/undefined" element={<NotFoundScreen />} />
+          <Route path="*" element={<HomeScreen />} />
         </Routes>
       </AuthenticatedLayout>
     );
@@ -44,7 +45,8 @@ const Root: React.FC = () => {
     <GuestLayout>
       <Routes>
         <Route path="/login" element={<SignInScreen />} />
-        <Route path="*" element={<NotFoundScreen />} />
+        <Route path="/undefined" element={<NotFoundScreen />} />
+        <Route path="*" element={<SignInScreen />} />
       </Routes>
     </GuestLayout>
   );

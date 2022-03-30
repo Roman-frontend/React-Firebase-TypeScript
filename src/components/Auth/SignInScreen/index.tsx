@@ -1,5 +1,8 @@
 import React, { useCallback, useContext, useState, useEffect } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import Container from '@mui/material/Container';
@@ -12,12 +15,14 @@ import mainImage from '../../../auth-image.png';
 import voypostIcon from '../../../voypost.png';
 import PaswordInput from './PaswordInputAuth';
 import EmailInput from './EmailInputAuth';
+import { useFirestore } from 'reactfire';
+import { doc, setDoc } from 'firebase/firestore';
 
 const SignInScreen: React.FC = () => {
   const [disabledSubmit, setDisabledSubmit] = useState<boolean>(true);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { setAlert, authApp } = useContext(AppContext);
+  const { setAlert, authApp, firestoreApp } = useContext(AppContext);
 
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email format').required('Required!'),
@@ -59,6 +64,39 @@ const SignInScreen: React.FC = () => {
     },
     [setAlert, authApp],
   );
+
+  const registerHandler = useCallback(async () => {
+    setDisabledSubmit(true);
+    console.log(email, password);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        authApp,
+        email,
+        password,
+      );
+
+      const uid = userCredential.user.uid;
+      // Now you can use *uid* to store data related to your user.
+      // For example in firestore:
+      const ddoc = doc(useFirestore(), `usersInfo`, uid);
+      await setDoc(ddoc, { name: 'Roma' });
+
+      setAlert({
+        show: true,
+        severity: 'success',
+        message: `Succes login`,
+      });
+    } catch (e) {
+      setEmail('');
+      setPassword('');
+      setAlert({
+        show: true,
+        severity: 'error',
+        message: `${e}`,
+      });
+      setDisabledSubmit(false);
+    }
+  }, [setAlert, authApp, email, password]);
 
   return (
     <>
@@ -131,6 +169,20 @@ const SignInScreen: React.FC = () => {
                       }}
                       disabled={disabledSubmit}
                       type="submit"
+                    >
+                      Enter
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      color="primary"
+                      style={{
+                        width: '70%',
+                        margin: '15px',
+                        background: 'red',
+                      }}
+                      onClick={registerHandler}
+                      disabled={disabledSubmit}
                     >
                       Enter
                     </Button>

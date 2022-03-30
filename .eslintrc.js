@@ -28,7 +28,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', 'clearFirestoreCache.ts'],
   rules: {
     'linebreak-style': 'off',
     'react/jsx-props-no-spreading': 'off',

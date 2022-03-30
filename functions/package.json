@@ -14,9 +14,11 @@
   },
   "main": "lib/index.js",
   "engines": {
-    "node": "16.13.2"
+    "node": "^8.13.0 || >=10.10.0"
   },
   "dependencies": {
+    "axios": "^0.26.1",
+    "express": "^4.17.3",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.19.0"
   },

@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "site": "task",
     "public": "build",
     "ignore": [
       "firebase.json",
@@ -25,10 +24,20 @@
       "port": 8080
     },
     "hosting": {
-      "port": 5000
+      "port": 5500
     },
     "ui": {
       "enabled": true
+    },
+    "pubsub": {
+      "port": 8090
+    },
+    "auth": {
+      "port": 9099
     }
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs16"
   }
 }
