@@ -1,11 +1,12 @@
 import React, { useContext, ReactElement } from 'react';
 import { signOut } from 'firebase/auth';
+import { useAuth } from 'reactfire';
 import { useNavigate } from 'react-router-dom';
 import { Menu, MenuItem, ListItemIcon } from '@mui/material';
 import Logout from '@mui/icons-material/Logout';
 import { LOGIN_ROUTE } from '../../../utils/consts';
-import { AppContext } from '../AppContext';
 import clearFirestoreCache from '../../../common/clearFirestoreCache';
+import { AppContext } from '../AppContext';
 
 interface IProps {
   anchorEl: null | HTMLButtonElement;
@@ -15,13 +16,15 @@ interface IProps {
 
 const MenuProfile = (props: IProps): ReactElement => {
   const navigate = useNavigate();
-  const { authApp } = useContext(AppContext);
+  const authApp = useAuth();
   const { anchorEl, setAnchorEl, open } = props;
+  const { setIsRegisteredNow } = useContext(AppContext);
 
   const logoutHandler = async () => {
     await signOut(authApp);
     clearFirestoreCache();
     navigate(LOGIN_ROUTE);
+    setIsRegisteredNow(true);
   };
 
   const handleClose = () => {

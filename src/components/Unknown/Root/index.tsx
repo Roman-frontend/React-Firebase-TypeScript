@@ -1,34 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { useUser } from 'reactfire';
+import { useSigninCheck } from 'reactfire';
 import AuthenticatedLayout from '../AuthenticatedLayout';
 import GuestLayout from '../GuestLayout';
 import HomeScreen from '../HomeScreen';
 import NotFoundScreen from '../NotFoundScreen';
 import SignInScreen from '../../Auth/SignInScreen';
+import Loader from '../Loader/Loader';
 
 const Root: React.FC = () => {
-  const {
-    data: user,
-    // hasEmitted,
-    firstValuePromise,
-  } = useUser();
-  const [isUserLoaded, setIsUserLoaded] = useState(false);
-  const isLogged = !!user;
-  useEffect(() => {
-    firstValuePromise.then(() => setIsUserLoaded(true));
-  }, [firstValuePromise, setIsUserLoaded]);
+  const { status, data: signInCheckResult } = useSigninCheck();
 
-  // doesn't always work, but suddenly works when subscribing to `firstValuePromise`
-  // thus we use `isUserLoaded` below
-  // if (!hasEmitted) {
-  //   return null;
-  // }
-  if (!isUserLoaded) {
-    return null;
+  if (status === 'loading') {
+    return <Loader />;
   }
 
-  if (isLogged) {
+  if (signInCheckResult.signedIn === true) {
+    console.log('signInCheckResult.signedIn... ', signInCheckResult.signedIn);
     return (
       <AuthenticatedLayout>
         <Routes>

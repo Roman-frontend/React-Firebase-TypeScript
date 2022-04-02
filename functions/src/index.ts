@@ -70,6 +70,8 @@ exports.newUserSignup = functions.auth.user().onCreate((user) => {
   console.log(`${user.email} is created... `);
   return admin.firestore().collection('usersInfo').doc(user.uid).set({
     email: user.email,
+    name: 'undefined',
+    surname: 'undefined',
     createdAt: Date.now(),
   });
 });

@@ -67,3 +67,29 @@ yarn build
 cd ..
 firebase emulators:start
 ```
+
+## How to deploy only functions for my app?
+
+```sh
+yarn deploy-functions
+```
+
+or
+
+```sh
+firebase deploy --only functions
+```
+
+## How to deploy only one function for my app?
+
+where specificFunctionName - is a name of function for deploy
+
+```sh
+firebase deploy --only functions:specificFunctionName
+```
+
+## How to deploy several functions for my app?
+
+```sh
+firebase deploy --only functions:func1,functions:func2
+```

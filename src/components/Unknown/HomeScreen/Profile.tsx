@@ -1,13 +1,17 @@
-import React, { useContext, useEffect, useState, ReactElement } from 'react';
+import React, { useEffect, useState, ReactElement } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
-import { useUser } from 'reactfire';
+import { useFirestore, useUser } from 'reactfire';
 import { Avatar, IconButton, Tooltip } from '@mui/material';
-import { AppContext } from '../AppContext';
 import MenuProfile from './MenuProfile';
 
-const Profile: React.FC = (): ReactElement => {
+interface IProps {
+  openModalUserInfo: boolean;
+}
+
+const Profile = (props: IProps): ReactElement => {
+  const { openModalUserInfo } = props;
   const { data: userData } = useUser();
-  const { firestoreApp } = useContext(AppContext);
+  const firestore = useFirestore();
   const [avatar, setAvatar] = useState<string>('U');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLButtonElement>(
     null,
@@ -15,8 +19,8 @@ const Profile: React.FC = (): ReactElement => {
 
   useEffect(() => {
     async function getUserInfo() {
-      if (userData?.uid) {
-        const userInfo = doc(firestoreApp, 'infoUsers', userData?.uid);
+      if (userData?.uid && !openModalUserInfo) {
+        const userInfo = doc(firestore, 'usersInfo', userData.uid);
         const docSnap = await getDoc(userInfo);
         const user = docSnap.data();
         if (typeof user === 'object' && 'name' in user && 'surname' in user) {
@@ -29,7 +33,7 @@ const Profile: React.FC = (): ReactElement => {
     }
 
     getUserInfo();
-  }, [userData, firestoreApp]);
+  }, [userData, firestore, openModalUserInfo]);
 
   const open = Boolean(anchorEl);
   const handleClick = (

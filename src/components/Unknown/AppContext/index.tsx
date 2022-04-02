@@ -1,8 +1,4 @@
 import React, { createContext, useState, ReactElement } from 'react';
-import { getAuth, Auth } from 'firebase/auth';
-import { Firestore, getFirestore } from 'firebase/firestore';
-import { useFirebaseApp } from 'reactfire';
-import { getDatabase, Database } from 'firebase/database';
 import Alert, { AlertColor } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
@@ -10,9 +6,8 @@ export const AppContext = createContext<AppContextProps>({} as AppContextProps);
 
 interface AppContextProps {
   setAlert: React.Dispatch<React.SetStateAction<AlertProps>>;
-  firebaseApp: Database;
-  authApp: Auth;
-  firestoreApp: Firestore;
+  isRegisteredNow: boolean;
+  setIsRegisteredNow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface AlertProps {
@@ -22,11 +17,7 @@ interface AlertProps {
 }
 
 export const AppContextProvider: React.FC = ({ children }): ReactElement => {
-  const app = useFirebaseApp();
-  const firebaseApp = getDatabase(app);
-  const authApp = getAuth(app);
-  const firestoreApp = getFirestore(useFirebaseApp());
-
+  const [isRegisteredNow, setIsRegisteredNow] = useState<boolean>(false);
   const [alert, setAlert] = useState<AlertProps>({
     show: false,
     severity: 'info',
@@ -39,7 +30,7 @@ export const AppContextProvider: React.FC = ({ children }): ReactElement => {
 
   return (
     <AppContext.Provider
-      value={{ setAlert, firebaseApp, authApp, firestoreApp }}
+      value={{ setAlert, isRegisteredNow, setIsRegisteredNow }}
     >
       {children}
       <Snackbar open={alert.show} autoHideDuration={4000} onClose={handleClose}>
