@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSigninCheck } from 'reactfire';
 import AuthenticatedLayout from '../AuthenticatedLayout';
@@ -16,7 +16,6 @@ const Root: React.FC = () => {
   }
 
   if (signInCheckResult.signedIn === true) {
-    console.log('signInCheckResult.signedIn... ', signInCheckResult.signedIn);
     return (
       <AuthenticatedLayout>
         <Routes>

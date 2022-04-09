@@ -73,10 +73,14 @@ const SignInScreen: React.FC = () => {
   const registerHandler = useCallback(async () => {
     setDisabledSubmit(true);
     try {
-      await createUserWithEmailAndPassword(authApp, email, password);
+      const { user } = await createUserWithEmailAndPassword(
+        authApp,
+        email,
+        password,
+      );
 
       setAlert({ show: true, severity: 'success', message: `Succes register` });
-      setIsRegisteredNow(true);
+      setIsRegisteredNow(user.uid);
     } catch (e) {
       setEmail('');
       setPassword('');
@@ -86,7 +90,7 @@ const SignInScreen: React.FC = () => {
   }, [setAlert, authApp, email, password, setIsRegisteredNow]);
 
   const loginGogleWithoutPopupInTheWindow = async () => {
-    //signInWithPopup - Щоб відкрити окрему вкладку з вибором облікових записів гугл
+    // signInWithPopup - Щоб відкрити окрему вкладку з вибором облікових записів гугл
     signInWithPopup(authApp, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -232,7 +236,7 @@ const SignInScreen: React.FC = () => {
                 </Formik>
 
                 <Button
-                  onClick={loginGogleWithPopupInTheWindow}
+                  onClick={() => loginGogleWithPopupInTheWindow()}
                   variant="outlined"
                 >
                   Войти с помощью Google в етом окне

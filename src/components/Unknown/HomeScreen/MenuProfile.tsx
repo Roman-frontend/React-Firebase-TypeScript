@@ -1,8 +1,18 @@
 import React, { useContext, ReactElement } from 'react';
+import {
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  query,
+  where,
+  limit,
+} from 'firebase/firestore';
+import { useFirestore, useAuth } from 'reactfire';
 import { signOut } from 'firebase/auth';
-import { useAuth } from 'reactfire';
 import { useNavigate } from 'react-router-dom';
 import { Menu, MenuItem, ListItemIcon } from '@mui/material';
+import DeleteSweep from '@mui/icons-material/DeleteSweep';
 import Logout from '@mui/icons-material/Logout';
 import { LOGIN_ROUTE } from '../../../utils/consts';
 import clearFirestoreCache from '../../../common/clearFirestoreCache';
@@ -19,12 +29,33 @@ const MenuProfile = (props: IProps): ReactElement => {
   const authApp = useAuth();
   const { anchorEl, setAnchorEl, open } = props;
   const { setIsRegisteredNow } = useContext(AppContext);
+  const firestore = useFirestore();
+  const messagesCol = collection(firestore, 'messages');
 
   const logoutHandler = async () => {
     await signOut(authApp);
     clearFirestoreCache();
     navigate(LOGIN_ROUTE);
-    setIsRegisteredNow(true);
+    // setIsRegisteredNow(null);
+  };
+
+  // Видаляє кілька повідомлень
+  const handleQueryDelete = async () => {
+    const promptText = prompt(
+      'Enter text for delete all messages with the text',
+    );
+    const q = query(messagesCol, where('text', '==', promptText), limit(2));
+    const snapshot = await getDocs(q);
+
+    const results = snapshot.docs.map((snap) => ({
+      ...snap.data(),
+      id: snap.id,
+    }));
+
+    results.forEach(async (result) => {
+      const docRef = doc(firestore, 'messages', result.id);
+      await deleteDoc(docRef);
+    });
   };
 
   const handleClose = () => {
@@ -67,6 +98,12 @@ const MenuProfile = (props: IProps): ReactElement => {
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
     >
+      <MenuItem onClick={handleQueryDelete}>
+        <ListItemIcon>
+          <DeleteSweep fontSize="small" />
+        </ListItemIcon>
+        Delete some messages
+      </MenuItem>
       <MenuItem onClick={logoutHandler}>
         <ListItemIcon>
           <Logout fontSize="small" />

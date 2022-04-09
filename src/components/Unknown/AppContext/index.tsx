@@ -6,8 +6,8 @@ export const AppContext = createContext<AppContextProps>({} as AppContextProps);
 
 interface AppContextProps {
   setAlert: React.Dispatch<React.SetStateAction<AlertProps>>;
-  isRegisteredNow: boolean;
-  setIsRegisteredNow: React.Dispatch<React.SetStateAction<boolean>>;
+  isRegisteredNow: null | string;
+  setIsRegisteredNow: React.Dispatch<React.SetStateAction<null | string>>;
 }
 
 interface AlertProps {
@@ -17,7 +17,7 @@ interface AlertProps {
 }
 
 export const AppContextProvider: React.FC = ({ children }): ReactElement => {
-  const [isRegisteredNow, setIsRegisteredNow] = useState<boolean>(false);
+  const [isRegisteredNow, setIsRegisteredNow] = useState<null | string>(null);
   const [alert, setAlert] = useState<AlertProps>({
     show: false,
     severity: 'info',

@@ -1,4 +1,4 @@
-import React, { useContext, useState, ChangeEvent } from 'react';
+import React, { useContext, useState, ChangeEvent, ReactElement } from 'react';
 import { useUser } from 'reactfire';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import Button from '@mui/material/Button';
@@ -16,16 +16,16 @@ interface IProps {
   openModalUserInfo: boolean;
 }
 
-export default function UserInfoModal(props: IProps) {
+export default function UserInfoModal(props: IProps): ReactElement {
   const { openModalUserInfo, setOpenModalUserInfo } = props;
-  const { setIsRegisteredNow } = useContext(AppContext);
+  const { isRegisteredNow, setIsRegisteredNow } = useContext(AppContext);
   const { data: userData } = useUser();
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
 
   const handleClose = () => {
     setOpenModalUserInfo(false);
-    setIsRegisteredNow(false);
+    setIsRegisteredNow(null);
   };
 
   const handleSetName = (event: ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +41,12 @@ export default function UserInfoModal(props: IProps) {
       const docRef = doc(firebaseStore, `usersInfo`, userData.uid);
       const docSnap = await getDoc(docRef);
 
-      await setDoc(docRef, { ...docSnap.data(), name, surname });
+      await setDoc(docRef, {
+        ...docSnap.data(),
+        name,
+        surname,
+        uid: isRegisteredNow,
+      });
     }
 
     handleClose();
