@@ -33,7 +33,7 @@ const EmailInput = (props: IProps): ReactElement => {
                 <TextField
                   style={{ border: meta.error && 'solid 1px red' }}
                   id="outlined-basic"
-                  label="Outlined"
+                  label="Email"
                   variant="outlined"
                   value={email}
                   onChange={handlerInputEmail}

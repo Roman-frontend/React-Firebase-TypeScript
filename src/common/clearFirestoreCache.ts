@@ -9,6 +9,7 @@ const clearFirestoreCache = () => {
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/dot-notation
     const map = globalThis['_reactFirePreloadedObservables'];
+    console.log('map... ', map);
     Array.from(map.keys()).forEach(
       (key) => (key as any).includes('firestore') && map.delete(key), // eslint-disable-line  @typescript-eslint/no-explicit-any
     );

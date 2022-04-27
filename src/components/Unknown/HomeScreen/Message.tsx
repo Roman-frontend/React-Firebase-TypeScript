@@ -57,7 +57,11 @@ export default function Message(props: IProps): ReactElement {
     <>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          <Avatar
+            sx={{ height: 40, width: 40 }}
+            alt="Remy Sharp"
+            src="/static/images/avatar/1.jpg"
+          />
         </ListItemAvatar>
         <ListItemText
           primary={userNameAndSurname}

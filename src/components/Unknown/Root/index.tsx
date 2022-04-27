@@ -6,16 +6,18 @@ import GuestLayout from '../GuestLayout';
 import HomeScreen from '../HomeScreen';
 import NotFoundScreen from '../NotFoundScreen';
 import SignInScreen from '../../Auth/SignInScreen';
+import SignUpScreen from '../../Auth/SignUpScreen';
 import Loader from '../Loader/Loader';
 
 const Root: React.FC = () => {
   const { status, data: signInCheckResult } = useSigninCheck();
 
+  console.log('status => ', status, signInCheckResult);
   if (status === 'loading') {
     return <Loader />;
   }
 
-  if (signInCheckResult.signedIn === true) {
+  if (signInCheckResult?.signedIn === true) {
     return (
       <AuthenticatedLayout>
         <Routes>
@@ -32,6 +34,7 @@ const Root: React.FC = () => {
     <GuestLayout>
       <Routes>
         <Route path="/login" element={<SignInScreen />} />
+        <Route path="/register" element={<SignUpScreen />} />
         <Route path="/undefined" element={<NotFoundScreen />} />
         <Route path="*" element={<SignInScreen />} />
       </Routes>

@@ -4,12 +4,7 @@ import { useFirestore, useUser } from 'reactfire';
 import { Avatar, IconButton, Tooltip } from '@mui/material';
 import MenuProfile from './MenuProfile';
 
-interface IProps {
-  openModalUserInfo: boolean;
-}
-
-const Profile = (props: IProps): ReactElement => {
-  const { openModalUserInfo } = props;
+const Profile = (): ReactElement => {
   const { data: userData } = useUser();
   const firestore = useFirestore();
   const [avatar, setAvatar] = useState<string>('U');
@@ -19,7 +14,7 @@ const Profile = (props: IProps): ReactElement => {
 
   useEffect(() => {
     async function getUserInfo() {
-      if (userData?.uid && !openModalUserInfo) {
+      if (userData?.uid) {
         const userInfo = doc(firestore, 'usersInfo', userData.uid);
         const docSnap = await getDoc(userInfo);
         const user = docSnap.data();
@@ -33,7 +28,7 @@ const Profile = (props: IProps): ReactElement => {
     }
 
     getUserInfo();
-  }, [userData, firestore, openModalUserInfo]);
+  }, [userData, firestore]);
 
   const open = Boolean(anchorEl);
   const handleClick = (

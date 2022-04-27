@@ -30,6 +30,7 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js', 'clearFirestoreCache.ts'],
   rules: {
+    'no-alert': 'off',
     'linebreak-style': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/prop-types': 'off',

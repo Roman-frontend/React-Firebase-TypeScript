@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.btn {
+  height: 35px;
+  color: white;
+  position: relative;
+  border-radius: 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 0.5rem 1.5rem;
+  border: solid 1px red;
+  font-weight: 700;
+  outline: none;
+  background: red;
+  transition: all 0.22s;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.preview-image:hover .preview-remove {
+  opacity: 1;
+}
+
+.preview-image {
+  position: relative;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.preview {
+  display: flex;
+  flex-wrap: wrap;
+  background: #f4f4f4;
+}
+
+.preview-remove {
+  opacity: 0;
+  position: absolute;
+  width: 20;
+  height: 20;
+  right: 0;
+  top: 0;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: opaciti 0.22s;
+}
+
+.preview-info {
+  position: absolute;
+  right: 0;
+  bottom: -35px;
+  left: 0;
+  height: 25px;
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+  transition: opaciti 1s;
+}
+
+.preview-image:hover .preview-info {
+  bottom: 0px;
+  color: rgb(255, 255, 255);
+  background: rgba(81, 81, 81, 0.5);
+  opacity: 1;
+}
+
+.preview-image.removing {
+  transform: scale(0);
+  transition: transform 0.3s;
+}

@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useContext,
   ReactElement,
   useEffect,
   useRef,
@@ -10,6 +9,7 @@ import { useFirestore, useUser } from 'reactfire';
 import {
   collection,
   getDoc,
+  getDocs,
   addDoc,
   doc,
   serverTimestamp,
@@ -20,8 +20,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Profile from './Profile';
-import UserInfoModal from './UserInfoModal';
-import { AppContext } from '../AppContext';
 import Chat from './Chat';
 import Loader from '../Loader/Loader';
 
@@ -34,10 +32,6 @@ import Loader from '../Loader/Loader';
 const HomeScreen: React.FC = (): ReactElement => {
   const { data: userData } = useUser();
   const firestore = useFirestore();
-  const { isRegisteredNow } = useContext(AppContext);
-  const [openModalUserInfo, setOpenModalUserInfo] = useState<boolean>(
-    !!isRegisteredNow,
-  );
   const [userInfo, setUserInfo] = useState<DocumentData>({
     name: '',
     surname: '',
@@ -49,10 +43,11 @@ const HomeScreen: React.FC = (): ReactElement => {
 
   useEffect(() => {
     async function getUserInfo() {
-      if (userData?.uid && !openModalUserInfo) {
+      if (userData?.uid) {
         const usersInfoDocs = doc(firestore, 'usersInfo', userData.uid);
         const userDoc = await getDoc(usersInfoDocs);
         const user = userDoc.data();
+
         if (typeof user === 'object' && 'name' in user && 'surname' in user) {
           setUserInfo(user);
         }
@@ -61,7 +56,7 @@ const HomeScreen: React.FC = (): ReactElement => {
     }
 
     getUserInfo();
-  }, [userData, firestore, openModalUserInfo]);
+  }, [userData, firestore]);
 
   const sendMessage = async (event: KeyboardEvent<HTMLInputElement>) => {
     const text = inputRef?.current?.value || '';
@@ -93,6 +88,8 @@ const HomeScreen: React.FC = (): ReactElement => {
     }
   };
 
+  // console.log('loadingUserInfo => ', loadingUserInfo);
+
   if (loadingUserInfo) {
     return <Loader />;
   }
@@ -103,11 +100,9 @@ const HomeScreen: React.FC = (): ReactElement => {
         background: 'lightyellow',
         height: '100%',
         width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
       }}
     >
-      <Box sx={{ width: 800 }}>
+      <Box sx={{ width: 800, margin: 'auto' }}>
         <Box sx={{ flexGrow: 1 }}>
           <AppBar style={{ background: 'red', height: 65 }} position="static">
             <Toolbar>
@@ -123,15 +118,9 @@ const HomeScreen: React.FC = (): ReactElement => {
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 Voypost
               </Typography>
-              <Profile openModalUserInfo={openModalUserInfo} />
+              <Profile />
             </Toolbar>
           </AppBar>
-        </Box>
-        <Box>
-          <UserInfoModal
-            openModalUserInfo={openModalUserInfo}
-            setOpenModalUserInfo={setOpenModalUserInfo}
-          />
         </Box>
         <Chat name={userInfo.name} surname={userInfo.surname} />
 
