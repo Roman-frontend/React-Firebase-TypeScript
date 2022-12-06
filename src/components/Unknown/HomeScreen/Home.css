@@ -1,0 +1,44 @@
+.blur {
+  width: 100vw;
+  height: 100vh;
+  /* left: 30%; */
+  /* додає розмивання */
+  backdrop-filter: blur(4px);
+  position: absolute;
+}
+
+.menu__btn {
+  height: 30px;
+  width: 30px;
+  background-color: red;
+  margin-left: 20px;
+  position: absolute;
+  content: '';
+  cursor: pointer;
+}
+
+.menu__btn span {
+  top: 14px;
+  height: 2px;
+  width: 30px;
+  background-color: white;
+  position: absolute;
+}
+
+.menu__btn:after {
+  width: 30px;
+  height: 2px;
+  position: absolute;
+  background-color: white;
+  content: '';
+  top: 0;
+}
+
+.menu__btn:before {
+  width: 30px;
+  height: 2px;
+  position: absolute;
+  background-color: white;
+  content: '';
+  bottom: 0;
+}

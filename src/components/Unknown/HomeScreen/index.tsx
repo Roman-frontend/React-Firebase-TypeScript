@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useRef,
   KeyboardEvent,
+  MouseEvent,
 } from 'react';
 import { useFirestore, useUser } from 'reactfire';
 import {
@@ -22,6 +23,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Profile from './Profile';
 import Chat from './Chat';
 import Loader from '../Loader/Loader';
+import Menu from './Menu/Menu';
+import menuItems from './menuItems';
+import './Home.css';
 
 // interface IUserInfo extends DocumentData {
 //   name: string;
@@ -37,7 +41,19 @@ const HomeScreen: React.FC = (): ReactElement => {
     surname: '',
     uid: '',
   });
-  const [loadingUserInfo, setLoadingUserInfo] = useState(true);
+  const [loadingUserInfo, setLoadingUserInfo] = useState<boolean>(true);
+  const [menuActive, setMenuActive] = useState<boolean>(false);
+  // <div> reference type
+  // const divRef = React.useRef<HTMLDivElement>(null);
+
+  // <button> reference type
+  // const buttonRef = React.useRef<HTMLButtonElement>(null);
+
+  // <br /> reference type
+  // const brRef = React.useRef<HTMLBRElement>(null);
+
+  // <a> reference type
+  // const linkRef = React.useRef<HTMLLinkElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesCol = collection(firestore, 'messages');
 
@@ -88,11 +104,20 @@ const HomeScreen: React.FC = (): ReactElement => {
     }
   };
 
+  function menuBtnHandler(
+    e: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>,
+  ) {
+    e.stopPropagation();
+    setMenuActive(!menuActive);
+  }
+
   // console.log('loadingUserInfo => ', loadingUserInfo);
 
   if (loadingUserInfo) {
     return <Loader />;
   }
+
+  console.log(menuActive);
 
   return (
     <Box
@@ -101,20 +126,28 @@ const HomeScreen: React.FC = (): ReactElement => {
         height: '100%',
         width: '100%',
       }}
+      onClick={() => setMenuActive(false)}
     >
-      <Box sx={{ width: 800, margin: 'auto' }}>
+      {/* Розмиватиме зміст сторінки на якій ми знаходимось  */}
+      <Box sx={{ width: 800, margin: 'auto', position: 'relative' }}>
+        <Menu
+          header="Бургер меню"
+          items={menuItems}
+          menuActive={menuActive}
+          setMenuActive={setMenuActive}
+        />
         <Box sx={{ flexGrow: 1 }}>
           <AppBar style={{ background: 'red', height: 65 }} position="static">
             <Toolbar>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
+              <div
+                className="menu__btn"
+                role="button"
+                tabIndex={0}
+                onClick={(e) => menuBtnHandler(e)}
+                onKeyDown={(e) => menuBtnHandler(e)}
               >
-                <MenuIcon />
-              </IconButton>
+                <span />
+              </div>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 Voypost
               </Typography>

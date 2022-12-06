@@ -9,6 +9,7 @@ import {
 import { useFirestore } from 'reactfire';
 import { List, Box, Paper, Divider } from '@mui/material';
 import Message from './Message';
+import './Home.css';
 
 interface IProps {
   name: string;
@@ -86,6 +87,7 @@ export default function Chat(props: IProps) {
         }}
       >
         <List sx={{ bgcolor: 'background.paper', width: '100%' }}>
+          <div className="blur" />
           <Divider />
           {Array.isArray(messages) &&
             messages.map((message: IMessage) => (
